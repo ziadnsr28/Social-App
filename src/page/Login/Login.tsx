@@ -86,7 +86,7 @@ export default function Login() {
          <Link to="/auth/register" className="ml-4 block text-center mt-3 text-blue-500 hover:underline">
           Don't have an account? Sign up
         </Link>
-         <Link to="/auth/change-password" className="ml-4 block text-center mt-3 text-blue-500 hover:underline">
+         <Link to="" className="ml-4 block text-center mt-3 text-blue-500 hover:underline">
          change password
         </Link>
        </div>

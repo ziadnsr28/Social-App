@@ -106,7 +106,7 @@ export default function PostDetails() {
       {/* =========================
           LEFT SIDE: POST IMAGE
       ========================= */}
-      <section className="flex-1 bg-slate-950 flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-hidden min-h-[300px] lg:min-h-0 select-none">
+      {postDetails.image && <section className="flex-1 bg-slate-950 flex items-center justify-center p-4 sm:p-6 lg:p-8 overflow-hidden min-h-[300px] lg:min-h-0 select-none">
         <div className="relative w-full h-full flex items-center justify-center">
           <img
             src={postDetails.image}
@@ -114,12 +114,12 @@ export default function PostDetails() {
             className="max-h-full max-w-full w-auto h-auto object-contain rounded-2xl shadow-2xl"
           />
         </div>
-      </section>
+      </section>}
 
       {/* =========================
           RIGHT SIDE
       ========================= */}
-      <aside className="w-full lg:w-[420px] xl:w-[460px] flex flex-col h-full bg-white border-t lg:border-t-0 lg:border-l border-slate-200/80 shrink-0 min-w-0 overflow-hidden">
+      <aside className={`flex flex-col h-full bg-white border-t lg:border-t-0 ${postDetails.image ? "w-full lg:w-[420px] xl:w-[460px] lg:border-l border-slate-200/80" : "w-full"} shrink-0 min-w-0 overflow-hidden`}>
         {/* =========================
             AUTHOR HEADER
         ========================= */}
@@ -127,11 +127,15 @@ export default function PostDetails() {
           <div className="flex items-center gap-3 min-w-0">
             {/* Avatar */}
             <div className="w-10 h-10 rounded-full bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-sm shrink-0 overflow-hidden ring-2 ring-slate-100">
-              <img
-                src={postDetails.user.photo}
-                alt={postDetails.user.name}
-                className="w-full h-full object-cover"
-              />
+              {postDetails.user?.photo ? (
+                <img
+                  src={postDetails.user.photo}
+                  alt={postDetails.user.name}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <span>{postDetails.user?.name?.charAt(0).toUpperCase() || "?"}</span>
+              )}
             </div>
 
             {/* User Info */}
@@ -245,6 +249,7 @@ export default function PostDetails() {
             postComments.map((comment) => (
               <div key={comment._id} className="flex items-start gap-2.5" >
                 {/* Avatar */}
+                {/* (فيه fallback already هنا، سيبناه زي ما هو) */}
                 <div className="w-8 h-8 rounded-full bg-slate-200 text-slate-700 font-bold flex items-center justify-center text-xs shrink-0 mt-0.5 overflow-hidden ring-1 ring-slate-200/60">
                   {comment.commentCreator?.photo ? (
                     <img
@@ -293,15 +298,15 @@ export default function PostDetails() {
                           <Dropdown.Popover>
                             <Dropdown.Menu
                               onAction={(key) => {
-                                 console.log(`Selected: ${key}`);
-                                 const keyStr = String(key);
-                                 if (key === "delete-Comment" || keyStr.includes("delete-Comment")) {
-                                   if (postId) deletcooment(postId, comment._id);
-                                 }
-                                 if (key === "edit-Comment" || keyStr.includes("edit-Comment")) {
-                                   setEditingCommentId(comment._id);
-                                 }
-                               }}
+                                console.log(`Selected: ${key}`);
+                                const keyStr = String(key);
+                                if (key === "delete-Comment" || keyStr.includes("delete-Comment")) {
+                                  if (postId) deletcooment(postId, comment._id);
+                                }
+                                if (key === "edit-Comment" || keyStr.includes("edit-Comment")) {
+                                  setEditingCommentId(comment._id);
+                                }
+                              }}
                             >
                               <Dropdown.Section>
                                 <Dropdown.Item

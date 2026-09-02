@@ -13,20 +13,8 @@ export async function loginUser(fromdata: loginSchemaType) {
 export async function changePassword(password: string, newPassword: string) {
     let userToken = localStorage.getItem("userToken");
 
-    if (userToken) {
-        userToken = userToken.replace(/^["']|["']$/g, "").trim();
-        if (userToken.startsWith("Bearer ")) {
-            userToken = userToken.substring(7).trim();
-        }
-    }
-
-    if (!userToken) {
-        throw new Error("No authentication token found. Please log in.");
-    }
-
     const postData = await axios.patch(
-        `${base}/users/change-password`,
-        {
+        `${base}/users/change-password`,   {
             password,
             newPassword,
         },
